@@ -8,11 +8,22 @@ import LupaPassword from './pages/lupa-password';
 import NotFound from './pages/404';
 import Private from './pages/private'
 import PrivateRoute from './components/PrivateRoute';
+
+//firebase context provider
 import FirebaseProvider from './components/FirebaseProvider';
 
+//import material-ui ccsBaseline
+import CssBaseline from '@material-ui/core/CssBaseline';
+
+import ThemeProvider from '@material-ui/styles/ThemeProvider';
+import theme from './config/theme'
 
 function App() {
   return (
+    <>
+    <CssBaseline />
+    <ThemeProvider theme={theme}>
+
     <FirebaseProvider>
 
    <Router>
@@ -29,6 +40,8 @@ function App() {
      </Switch>
    </Router>
     </FirebaseProvider>
+    </ThemeProvider>
+    </>
   );
 }
 
