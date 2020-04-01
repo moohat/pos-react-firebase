@@ -21,6 +21,9 @@ import isEmail from 'validator/lib/isEmail';
 //fireabase hook
 import { useFirebase } from '../../components/FirebaseProvider'
 
+//app component
+import AppLoading from '../../components/AppLoading'
+
 
 function Registrasi() {
     const classes = useStyles();
@@ -38,7 +41,7 @@ function Registrasi() {
 
     const [isSubmitting, setSubmitting] = useState(false);
 
-    const {auth, user} = useFirebase();
+    const {auth, user,loading} = useFirebase();
 
     const handleCHange = e => {
         setForm({
@@ -108,7 +111,14 @@ function Registrasi() {
         }
     }
 
-    // console.log(user);
+
+
+    //loading
+    if(loading){
+        return <AppLoading />
+    }
+
+    // jika user terdaftar
     if(user){
         return <Redirect to="/" />
     }

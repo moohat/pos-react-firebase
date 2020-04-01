@@ -18,11 +18,18 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import ThemeProvider from '@material-ui/styles/ThemeProvider';
 import theme from './config/theme'
 
+//notistack
+import {SnackbarProvider} from 'notistack'
+
 function App() {
   return (
     <>
     <CssBaseline />
     <ThemeProvider theme={theme}>
+      <SnackbarProvider maxSnack={3} 
+      autoHideDuration={5000}>
+
+     
 
     <FirebaseProvider>
 
@@ -40,6 +47,7 @@ function App() {
      </Switch>
    </Router>
     </FirebaseProvider>
+    </SnackbarProvider>
     </ThemeProvider>
     </>
   );
