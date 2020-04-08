@@ -40,7 +40,7 @@ import { useFirebase } from '../../components/FirebaseProvider';
 
 export default function Private() {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
 
   //signout firebase auth
   const { auth } = useFirebase();
