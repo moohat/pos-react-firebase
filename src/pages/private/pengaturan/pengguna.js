@@ -1,9 +1,12 @@
+/* eslint-disable no-fallthrough */
 /* eslint-disable no-unused-vars */
 /* eslint-disable default-case */
 /* eslint-disable no-undef */
 import React, { useRef, useState } from 'react';
 //material-ui
 import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 import { useFirebase } from '../../../components/FirebaseProvider';
 import useStyles from './styles/pengguna';
 import { useSnackbar } from 'notistack';
@@ -15,11 +18,13 @@ function Pengguna() {
     const [error, setError] = useState({
         displayName: '',
         email: '',
+        password: ''
     })
     const { enqueueSnackbar } = useSnackbar();
     const [isSubmitting, setSubmitting] = useState(false);
     const displayNameRef = useRef();
     const emailRef = useRef();
+    const passwordRef = useRef();
 
 
     const saveDisplayName = async (e) => {
@@ -91,6 +96,56 @@ function Pengguna() {
         }
 
     }
+
+    const updatePassword = async (e) => {
+        const password = passwordRef.current.value;
+        if(!password){
+            setError({
+                password: 'Password wajib diisi'
+            })
+        }else{
+            setSubmitting(true)
+            try {
+                await user.updatePassword(password);
+                enqueueSnackbar('Password berhasil diperbaharui', { variant: 'success' });
+
+            } catch (e) {
+                let errorPassword = '';
+            
+                switch (e.code) {
+                    case 'auth/weak-password':
+                        errorPassword = "Password Lemah, isi password lebih kompleks"                        
+                        break;
+                    case 'auth/requires-recent-login':
+                        errorPassword = "Silahkan logout, kemudian login kembali untuk memberbarui email"
+                    break;
+                
+                    default:
+                        errorPassword = "Terjadi kesalahan, silahkan coba lagi"
+                        break;
+                }
+                setError({
+                    password: errorPassword
+                })
+                
+            }
+            setSubmitting(false)
+        }
+
+    }
+
+
+
+    const sendEmailVerification = async (e) => {
+        const actionCodeSettings = {
+            url: `${window.location.origin}/login`
+        };
+        setSubmitting(true)
+        await user.sendEmailVerification(actionCodeSettings);
+        enqueueSnackbar(`Email verfikasi telah dikirm ke ${emailRef.current.value}`, {
+            variant: 'success'});
+        setSubmitting(false)
+    }
     return <div className={classes.pengaturanPengguna}>
         <TextField
             id="displayName"
@@ -112,6 +167,7 @@ function Pengguna() {
             name="email"
             label="Email"
             margin="normal"
+            type="email"
 
             defaultValue={user.email}
             inputProps={{
@@ -123,6 +179,38 @@ function Pengguna() {
             error={error.email ? true : false}
 
         />
+        {
+            user.emailVerified ?
+            <Typography variant="subtitle1" color="primary">Email sudah terverifikasi</Typography>
+            :
+
+
+        <Button
+            variant="outlined"
+            onClick = {sendEmailVerification}
+            disabled={isSubmitting}
+        >Kirim Email Verifikasi</Button>
+        }
+
+<TextField
+            id="password"
+            name="password"
+            label="password Baru"
+            margin="normal"
+            type="password"
+
+            defaultValue={user.password}
+            inputProps={{
+                ref: passwordRef,
+                onBlur: updatePassword
+            }}
+            autoComplete = "new-password"
+            disabled={isSubmitting}
+            helperText={error.password}
+            error={error.password ? true : false}
+
+        />
+
     </div>
 }
 
