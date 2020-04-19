@@ -18,7 +18,8 @@ import {Link} from 'react-router-dom';
 
 
 
-function EditProduk({ match }) {
+
+function EditProduk({ match, history }) {
     const classes = useStyles();
     const { firestore, storage, user } = useFirebase();
     const produkDoc = firestore.doc(`toko/${user.uid}/produk/${match.params.produkId}`);
@@ -101,6 +102,9 @@ function EditProduk({ match }) {
                 enqueueSnackbar('Data produk berhasil disimpan', {
                     variant: 'success'
                 })
+                // back page to product page
+                history.goBack();
+
                 
 
             } catch (e) {
@@ -318,7 +322,7 @@ function EditProduk({ match }) {
                         color="primary"
                         variant="contained"
                         disabled={isSubmitting || !isSomethingChange}
-
+                       
                     >
                         <SaveIcon className={classes.iconLeft} />
                         
