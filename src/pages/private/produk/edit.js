@@ -11,7 +11,11 @@ import useStyles from './styles/edit';
 import UploadIcon from '@material-ui/icons/CloudUpload';
 import SaveIcon from '@material-ui/icons/Save';
 //react router
-import { Prompt } from 'react-router-dom'
+import { Prompt } from 'react-router-dom';
+
+//react router
+import {Link} from 'react-router-dom';
+
 
 
 function EditProduk({ match }) {
@@ -97,6 +101,7 @@ function EditProduk({ match }) {
                 enqueueSnackbar('Data produk berhasil disimpan', {
                     variant: 'success'
                 })
+                
 
             } catch (e) {
                 enqueueSnackbar(e.message, {
@@ -197,7 +202,8 @@ function EditProduk({ match }) {
 
         <Grid container alignItems="center" justify="center">
             <Grid item xs={12} sm={6}>
-                <form id="produk-form" onSubmit={handleSubmit} noValidate>
+                <form id="produk-form" onSubmit={handleSubmit} noValidate
+                >
                     <TextField
                         id="nama"
                         name="nama"
@@ -315,6 +321,7 @@ function EditProduk({ match }) {
 
                     >
                         <SaveIcon className={classes.iconLeft} />
+                        
                     Simpan
                 </Button>
 
