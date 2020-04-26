@@ -118,9 +118,8 @@ function EditProduk({ match, history }) {
 
     }
     if (loading) {
-        return <AppPageLoading>
+        return <AppPageLoading />
 
-        </AppPageLoading>
     }
 
     const handleUploadFile = async (e) => {
