@@ -4,10 +4,11 @@ import React, { useState } from 'react';
 //import komponen material ui
 import Container from '@material-ui/core/Container'
 import Paper from '@material-ui/core/Paper'
-import Typhography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
+import Popover from '@material-ui/core/Popover';
+import Typography from '@material-ui/core/Typography';
 
 
 //import styles
@@ -103,6 +104,19 @@ function Login(props) {
         }
     }
 
+    const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? 'simple-popover' : undefined;
+
 
 
     //loading
@@ -119,10 +133,10 @@ function Login(props) {
     return <Container maxWidth="xs">
         <Paper className={classes.paper}>
 
-            <Typhography
+            <Typography
                 variant="h5"
                 component="h1"
-                className={classes.title}>Login</Typhography>
+                className={classes.title}>Login</Typography>
             <form onSubmit={handleSubmit} noValidate>
                 <TextField
                     id="email"
@@ -175,14 +189,35 @@ function Login(props) {
                 </Grid>
                 <div className={classes.forgotPassword}>
 
-                    <Typhography component={Link} to="/lupa-password">
+                    <Typography component={Link} to="/lupa-password">
                         Lupa Password
-                </Typhography>
+                </Typography>
                 </div>
+                <div>
+      <Button className={classes.buttonPopover} aria-describedby={id} variant="contained" color="primary" onClick={handleClick}>
+      Access Account
+      </Button>
 
+    </div>
             </form>
 
         </Paper>
+      <Popover
+        id={id}
+        open={open}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'center',
+        }}
+      >
+        <Typography className={classes.typography}>Email : admin@gmail.com <br />Password: 123456789</Typography>
+      </Popover>
     </Container>
 }
 

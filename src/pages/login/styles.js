@@ -17,7 +17,19 @@ const useStyles = makeStyles (theme =>({
     },
     forgotPassword:{
         marginTop: theme.spacing(3)
-    }
+    },
+    typography: {
+        padding: theme.spacing(5),
+        
+      },
+      buttonPopover:{
+        marginTop: theme.spacing(8),
+        marginLeft: theme.spacing(10),
+        textAlign:'center',
+        alignContent:'center',
+        alignItems:'center'
+
+      }
 }))
 
 
